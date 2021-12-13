@@ -1,19 +1,19 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NUnit.Framework;
 using Services;
 using Services.Company;
 using ServicesInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
 using TestBaseDto.Profeilers;
 
-namespace TestingNHibernate
+namespace TestingNHibernate.CompanyTest
 {
     public class CompanyServiceTest
     {
