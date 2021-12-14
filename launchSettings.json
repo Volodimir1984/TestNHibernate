@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchServiceName": "testnhibernate",
+      "serviceActions": {
+        "sql.data": "StartWithoutDebugging",
+        "testnhibernate": "StartDebugging"
+      },
+      "composeLaunchAction": "LaunchBrowser",
+      "commandVersion": "1.0",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/weatherforecast"
+    }
+  }
+}

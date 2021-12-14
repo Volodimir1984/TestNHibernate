@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  testnhibernate:
+    image: ${DOCKER_REGISTRY-}testnhibernate
+    ports:
+      - 5000:80
+    links:
+      - sql.data
+    build:
+      context: .
+      dockerfile: TestNHibernate/Dockerfile
+  sql.data:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Volodymyr@10091984
+      - ACCEPT_EULA=Y
+    container_name: mssql_db
+    ports:
+      - "1433:1433"
+    volumes:
+      - dbdata:/var/opt/mssql
+volumes:
+  dbdata:
+    driver: local
