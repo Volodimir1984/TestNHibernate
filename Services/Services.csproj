@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MassTransitContracts\MassTransitContracts.csproj" />
       <ProjectReference Include="..\ConstData\ConstData.csproj" />
       <ProjectReference Include="..\ServicesInterfaces\ServicesInterfaces.csproj" />
     </ItemGroup>
@@ -16,6 +15,12 @@
       <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
       <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.0" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="7.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MassTransitContracts">
+        <HintPath>..\..\MassTransitContracts\bin\Debug\netcoreapp3.1\MassTransitContracts.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
