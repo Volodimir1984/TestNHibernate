@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ConstData;
+using MassTransit;
+using MassTransitContracts;
 using NHibernate.Linq;
 using ServicesInterfaces;
 using TestBase;
@@ -16,11 +18,15 @@ namespace Services.Company
     {
         private readonly INHibernateSession _session;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public CompanyService(INHibernateSession session, IMapper mapper)
+        public CompanyService(INHibernateSession session, 
+            IMapper mapper, 
+            IPublishEndpoint publishEndpoint)
         {
             _session = session;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync()
@@ -130,6 +136,13 @@ namespace Services.Company
                 
                 await _session.SaveAsync(createCompany);
                 await _session.CommitAsync();
+
+                await _publishEndpoint.Publish<IAddNewCompanyContract>(new
+                {
+                    Name = company.Name,
+                    Address = company.Address,
+                    Phone = company.Phone,
+                });
             }
             catch (Exception e)
             {

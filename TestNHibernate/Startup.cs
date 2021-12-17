@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services;
 using Services.Company;
 using Services.User;
 using ServicesInterfaces;
@@ -27,6 +28,7 @@ namespace TestNHibernate
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddNHibernate(connectionString);
+            services.AddMassTransitService(Configuration);
             
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IUserService, UserService>();
