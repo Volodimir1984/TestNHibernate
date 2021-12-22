@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CompanyService;
 using Moq;
 using NUnit.Framework;
-using ServicesInterfaces;
 using ServicesInterfaces.Companies;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
@@ -186,7 +185,7 @@ namespace TestingNHibernate.CompanyTest
         [TestCase(4)]
         public void TestDeleteCompanyAsyncException(int companyId)
         {
-            Assert.ThrowsAsync<CompanyServiceException>(() => _companyService.DeleteCompanyAsync(companyId));
+            Assert.ThrowsAsync<Exception>(() => _companyService.DeleteCompanyAsync(companyId));
         }
 
         [Test]

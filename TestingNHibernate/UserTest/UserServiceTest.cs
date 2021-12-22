@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -148,7 +149,7 @@ namespace TestingNHibernate.UserTest
         [TestCase(4)]
         public void TestDeleteUserException(int userId)
         {
-            Assert.ThrowsAsync<UserServiceException>(() => _userService.DeleteUserAsync(userId));
+            Assert.ThrowsAsync<Exception>(() => _userService.DeleteUserAsync(userId));
         }
 
         [Test]
