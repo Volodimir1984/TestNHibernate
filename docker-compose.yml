@@ -20,6 +20,13 @@ services:
       - "1433:1433"
     volumes:
       - dbdata:/var/opt/mssql
+  rabbitMQ:
+    image: rabbitmq:3.9.11-management
+    container_name: rabbitMq
+    ports:
+      - "5672:5672"
+      - "5673:5673"
+      - "15672:15672"
 volumes:
   dbdata:
     driver: local

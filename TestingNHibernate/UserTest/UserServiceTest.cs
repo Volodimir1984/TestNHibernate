@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using Services;
-using Services.User;
-using ServicesInterfaces;
+using ServicesInterfaces.Users;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
 using TestBaseDto.Profeilers;
+using UserService;
 
 namespace TestingNHibernate.UserTest
 {
@@ -100,7 +99,7 @@ namespace TestingNHibernate.UserTest
             });
             var mapper = config.CreateMapper();
 
-            _userService = new UserService(mockHibernateSession.Object, mapper);
+            _userService = new UserService.UserService(mockHibernateSession.Object, mapper);
         }
 
         [Test]
@@ -126,7 +125,7 @@ namespace TestingNHibernate.UserTest
         [TestCase(4)]
         public void TestGetUserAsyncException(int companyId)
         {
-            Assert.ThrowsAsync<ServiceException>(() => _userService.GetUserAsync(companyId));
+            Assert.ThrowsAsync<UserServiceException>(() => _userService.GetUserAsync(companyId));
         }
 
         [Test]
@@ -149,7 +148,7 @@ namespace TestingNHibernate.UserTest
         [TestCase(4)]
         public void TestDeleteUserException(int userId)
         {
-            Assert.ThrowsAsync<ServiceException>(() => _userService.DeleteUserAsync(userId));
+            Assert.ThrowsAsync<UserServiceException>(() => _userService.DeleteUserAsync(userId));
         }
 
         [Test]

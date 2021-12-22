@@ -22,6 +22,7 @@ namespace TestBaseDto.Profeilers
                     })));
             
             CreateMap<CompanyDto, Company>()
+                .ForMember(dto => dto.Adress, entity => entity.MapFrom(c => c.Address))
                 .ForMember(entity => entity.Users, dto => dto.Ignore());
         }
     }

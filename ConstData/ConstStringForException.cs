@@ -6,5 +6,7 @@
         public const string NotFoundCompany = "No companies with this id were found!";
         public const string NotFoundUser = "No users with this id were found!";
         public const string RollbackError = "Failed to rollback transaction. Error!!!";
+        public const string ErrorConnectToRabbitMq =
+            "Section 'mass-transit' configuration settings are not found in appSettings.json";
     }
 }

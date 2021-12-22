@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using TestBaseDto;
 
-namespace ServicesInterfaces
+namespace ServicesInterfaces.Users
 {
     public interface IUserService
     {

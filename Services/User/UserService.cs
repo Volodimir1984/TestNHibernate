@@ -56,7 +56,6 @@ namespace Services.User
                 }
                 catch(Exception ex)
                 {
-                    await _session.RollbackAsync();
                     throw new Exception(ex.Message);
                 }
 
@@ -81,10 +80,6 @@ namespace Services.User
                 await _session.DeleteAsync(deleteUser);
                 await _session.CommitAsync();
             }
-            catch(ServiceException sm)
-            {
-                throw new ServiceException(sm.Message);
-            }
             catch (Exception e)
             {
                 try
@@ -93,7 +88,6 @@ namespace Services.User
                 }
                 catch(Exception ex)
                 {
-                    await _session.RollbackAsync();
                     throw new Exception(ex.Message);
                 }
 
@@ -125,7 +119,6 @@ namespace Services.User
                 }
                 catch(Exception ex)
                 {
-                    await _session.RollbackAsync();
                     throw new Exception(ex.Message);
                 }
 

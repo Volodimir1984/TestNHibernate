@@ -5,10 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Services;
-using Services.Company;
-using Services.User;
-using ServicesInterfaces;
+using ServicesInterfaces.Companies;
+using ServicesInterfaces.Users;
 using TestBase;
 
 namespace TestNHibernate
@@ -30,8 +28,8 @@ namespace TestNHibernate
             services.AddNHibernate(connectionString);
             services.AddMassTransitService(Configuration);
             
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICompanyService, CompanyService.CompanyService>();
+            services.AddScoped<IUserService, UserService.UserService>();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

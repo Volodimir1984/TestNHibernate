@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CompanyService;
 using Moq;
 using NUnit.Framework;
-using Services;
-using Services.Company;
 using ServicesInterfaces;
+using ServicesInterfaces.Companies;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
@@ -127,7 +127,7 @@ namespace TestingNHibernate.CompanyTest
             });
             var mapper = config.CreateMapper();
         
-            _companyService = new CompanyService(mockHibernateSession.Object, mapper);
+            _companyService = new CompanyService.CompanyService(mockHibernateSession.Object, mapper);
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace TestingNHibernate.CompanyTest
         [TestCase(4)]
         public void TestGetCompanyAsyncException(int companyId)
         {
-            Assert.ThrowsAsync<ServiceException>(() =>_companyService.GetCompanyAsync(companyId));
+            Assert.ThrowsAsync<CompanyServiceException>(() =>_companyService.GetCompanyAsync(companyId));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace TestingNHibernate.CompanyTest
         [TestCase(4)]
         public void TestDeleteCompanyAsyncException(int companyId)
         {
-            Assert.ThrowsAsync<ServiceException>(() => _companyService.DeleteCompanyAsync(companyId));
+            Assert.ThrowsAsync<CompanyServiceException>(() => _companyService.DeleteCompanyAsync(companyId));
         }
 
         [Test]

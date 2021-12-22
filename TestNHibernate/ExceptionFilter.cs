@@ -1,14 +1,13 @@
 ﻿using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Services.Company;
 using ServicesInterfaces;
 
 namespace TestNHibernate
 {
     public class ExceptionFilter: IActionFilter, IOrderedFilter
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(CompanyService));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(ExceptionFilter));
         public int Order { get; } = int.MaxValue - 10;
 
         public void OnActionExecuting(ActionExecutingContext context) { }
