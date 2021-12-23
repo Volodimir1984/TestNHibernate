@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CompanyService;
 using Moq;
 using NUnit.Framework;
 using ServicesInterfaces.Companies;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CompaniesService.Service;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
@@ -126,7 +126,7 @@ namespace TestingNHibernate.CompanyTest
             });
             var mapper = config.CreateMapper();
         
-            _companyService = new CompanyService.CompanyService(mockHibernateSession.Object, mapper);
+            _companyService = new CompanyService(mockHibernateSession.Object, mapper);
         }
 
         [Test]

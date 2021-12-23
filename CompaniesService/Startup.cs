@@ -1,19 +1,17 @@
 using System;
+using CompaniesService.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using ServicesInterfaces.Companies;
-using ServicesInterfaces.Users;
 using TestBase;
 
-namespace TestNHibernate
+namespace CompaniesService
 {
     public class Startup
     {
-        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,17 +22,24 @@ namespace TestNHibernate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddNHibernate(connectionString);
             services.AddMassTransitService(Configuration);
-            
-            services.AddControllers(options => options.Filters.Add(new ExceptionFilter()));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<ICompanyService, CompanyService>();
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseExceptionHandler(env.IsDevelopment() ? "/error-development" : "/error");
-
-            loggerFactory.AddLog4Net();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseHttpsRedirection();
 

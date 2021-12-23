@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>2691c7ab-1cce-4491-b4cd-f4a47186ffb8</ProjectGuid>
+    <ProjectGuid>113b08c4-7426-424e-ac7f-862a388075aa</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
     <DockerServiceName>testnhibernate</DockerServiceName>

@@ -3,11 +3,10 @@ using MassTransit;
 using MassTransit.Definition;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ServicesInterfaces.Companies;
-using ServicesInterfaces.Users;
 using System;
+using CompaniesService.Consumers;
 
-namespace TestNHibernate
+namespace CompaniesService
 {
     public static class MassTransitExtension
     {
@@ -42,26 +41,12 @@ namespace TestNHibernate
                 });
 
 
-                #region Company
-
-                x.AddRequestClient<ICompanyPrimaryData>(new Uri($"queue:{ConstStringForQueues.GetCompany}"));
-                x.AddRequestClient<ICompaniesData>(new Uri($"queue:{ConstStringForQueues.GetCompanies}"));
-                x.AddRequestClient<ICountUsersInCompany>(new Uri($"queue:{ConstStringForQueues.GetCompanyWithCountUsers}"));
-                x.AddRequestClient<ICompanyUpdate>(new Uri($"queue:{ConstStringForQueues.UpdateCompany}"));
-                x.AddRequestClient<ICompanyCreate>(new Uri($"queue:{ConstStringForQueues.CreateCompany}"));
-                x.AddRequestClient<IDeleteCompany>(new Uri($"queue:{ConstStringForQueues.DeleteCompany}"));
-
-                #endregion
-
-                #region User
-
-                x.AddRequestClient<IUsersData>(new Uri($"queue:{ConstStringForQueues.GetUsers}"));
-                x.AddRequestClient<IUserPrimaryData>(new Uri($"queue:{ConstStringForQueues.GetUser}"));
-                x.AddRequestClient<IUserUpdate>(new Uri($"queue:{ConstStringForQueues.UpdateUser}"));
-                x.AddRequestClient<IUserCreate>(new Uri($"queue:{ConstStringForQueues.CreateUser}"));
-                x.AddRequestClient<IUserDelete>(new Uri($"queue:{ConstStringForQueues.DeleteUser}"));
-
-                #endregion
+                x.AddConsumer<GetCompanyConsumer>().Endpoint(e => e.Name = ConstStringForQueues.GetCompany);
+                x.AddConsumer<GetCompaniesConsumer>().Endpoint(e => e.Name = ConstStringForQueues.GetCompanies);
+                x.AddConsumer<UpdateCompanyConsumer>().Endpoint(e => e.Name = ConstStringForQueues.UpdateCompany);
+                x.AddConsumer<CreateCompanyConsumer>().Endpoint(e => e.Name = ConstStringForQueues.CreateCompany);
+                x.AddConsumer<DeleteCompanyConsumer>().Endpoint(e => e.Name = ConstStringForQueues.DeleteCompany);
+                x.AddConsumer<GetCompanyWithCountUsersConsumer>().Endpoint(e => e.Name = ConstStringForQueues.GetCompanyWithCountUsers);
 
             });
 
@@ -69,6 +54,5 @@ namespace TestNHibernate
 
             return serviceCollection;
         }
-
     }
 }

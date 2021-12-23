@@ -10,7 +10,7 @@ using TestBase;
 using TestBase.Data;
 using TestBaseDto;
 using TestBaseDto.Profeilers;
-using UserService;
+using UsersService.Service;
 
 namespace TestingNHibernate.UserTest
 {
@@ -100,7 +100,7 @@ namespace TestingNHibernate.UserTest
             });
             var mapper = config.CreateMapper();
 
-            _userService = new UserService.UserService(mockHibernateSession.Object, mapper);
+            _userService = new UserService(mockHibernateSession.Object, mapper);
         }
 
         [Test]

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ConstData;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using ServicesInterfaces.Companies;
 using ServicesInterfaces.Users;
+using System;
 using System.Threading.Tasks;
-using ConstData;
 using TestBaseDto;
 
 namespace TestNHibernate.Controllers
@@ -13,20 +12,22 @@ namespace TestNHibernate.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IRequestClient<IUsersData> _usersRequestClient;
         private readonly IRequestClient<IUserPrimaryData> _userRequestClient;
-        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IRequestClient<IUserUpdate> _userUpdateRequestClient;
+        private readonly IRequestClient<IUserCreate> _userCreateRequestClient;
+        private readonly IRequestClient<IUserDelete> _userDeleteRequestClient;
 
-        public UserController(IUserService userService,
-            IRequestClient<IUsersData> usersRequestClient,
-            IRequestClient<IUserPrimaryData> userRequestClient,
-            ISendEndpointProvider sendEndpointProvider)
+        public UserController(IRequestClient<IUsersData> usersRequestClient,
+            IRequestClient<IUserPrimaryData> userRequestClient, 
+            IRequestClient<IUserUpdate> userUpdateRequestClient, 
+            IRequestClient<IUserCreate> userCreateRequestClient, IRequestClient<IUserDelete> userDeleteRequestClient)
         {
-            _userService = userService;
             _usersRequestClient = usersRequestClient;
             _userRequestClient = userRequestClient;
-            _sendEndpointProvider = sendEndpointProvider;
+            _userUpdateRequestClient = userUpdateRequestClient;
+            _userCreateRequestClient = userCreateRequestClient;
+            _userDeleteRequestClient = userDeleteRequestClient;
         }
 
         [HttpGet("Users")]
@@ -46,9 +47,7 @@ namespace TestNHibernate.Controllers
         [HttpPost("UpdateUser")]
         public async Task<IActionResult> UpdateUser(UserDto user)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{ConstStringForQueues.UpdateUser}"));
-
-            await endpoint.Send<IUserData>(new
+            var userId = await _userUpdateRequestClient.GetResponse<IUserPrimaryData>(new
             {
                 user.Id,
                 user.FirstName,
@@ -57,15 +56,13 @@ namespace TestNHibernate.Controllers
                 user.CompanyId
             });
 
-            return Ok();
+            return Ok(userId.Message);
         }
 
         [HttpPut("CreateUser")]
         public async Task<IActionResult> CreateUser(UserDto user)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{ConstStringForQueues.CreateUser}"));
-
-            await endpoint.Send<IUserData>(new
+            var userData = await _userCreateRequestClient.GetResponse<IUserData>(new
             {
                 user.Id,
                 user.FirstName,
@@ -74,17 +71,18 @@ namespace TestNHibernate.Controllers
                 user.CompanyId
             });
 
-            return Ok();
+            return Ok(userData.Message);
         }
 
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(UserDto user)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{ConstStringForQueues.DeleteUser}"));
+            var userId = await _userDeleteRequestClient.GetResponse<IUserPrimaryData>(new
+            {
+                user.Id
+            });
 
-            await endpoint.Send<IUserPrimaryData>(new{user.Id});
-
-            return Ok();
+            return Ok(userId.Message);
         }
     }
 }

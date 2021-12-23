@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CompanyService\CompanyService.csproj" />
-    <ProjectReference Include="..\..\UserService\UserService.csproj" />
+    <ProjectReference Include="..\CompaniesService\CompaniesService.csproj" />
+    <ProjectReference Include="..\UsersService\UsersService.csproj" />
   </ItemGroup>
 
 </Project>
