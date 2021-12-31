@@ -39,6 +39,11 @@ services:
       - "5672:5672"
       - "5673:5673"
       - "15672:15672"
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    ports:
+      - "6379:6379" 
 volumes:
   dbdata:
     driver: loca

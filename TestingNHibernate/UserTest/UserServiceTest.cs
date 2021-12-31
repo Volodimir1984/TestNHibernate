@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using NUnit.Framework;
 using ServicesInterfaces.Users;
@@ -100,7 +101,9 @@ namespace TestingNHibernate.UserTest
             });
             var mapper = config.CreateMapper();
 
-            _userService = new UserService(mockHibernateSession.Object, mapper);
+            var cache = new Mock<IDistributedCache>();
+
+            _userService = new UserService(mockHibernateSession.Object, mapper, cache.Object);
         }
 
         [Test]

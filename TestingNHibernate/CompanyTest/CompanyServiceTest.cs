@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CompaniesService.Service;
+using Microsoft.Extensions.Caching.Distributed;
 using TestBase;
 using TestBase.Data;
 using TestBaseDto;
@@ -125,8 +126,10 @@ namespace TestingNHibernate.CompanyTest
                 cfg.AddProfile(new CompanyDtoProfiler());
             });
             var mapper = config.CreateMapper();
-        
-            _companyService = new CompanyService(mockHibernateSession.Object, mapper);
+
+            var cache = new Mock<IDistributedCache>();
+
+            _companyService = new CompanyService(mockHibernateSession.Object, mapper, cache.Object);
         }
 
         [Test]

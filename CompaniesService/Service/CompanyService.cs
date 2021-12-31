@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ConstData;
+using Microsoft.Extensions.Caching.Distributed;
 using NHibernate.Linq;
 using ServicesInterfaces.Companies;
 using TestBase;
@@ -16,27 +17,50 @@ namespace CompaniesService.Service
     {
         private readonly INHibernateSession _session;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _cache;
 
-        public CompanyService(INHibernateSession session, IMapper mapper)
+        public CompanyService(INHibernateSession session, 
+            IMapper mapper, 
+            IDistributedCache cache)
         {
             _session = session;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync()
         {
-            var companies = await _session.Companies.ToListAsync();
-            return _mapper.Map<List<Company>, IEnumerable<CompanyDto>>(companies);
+            var key = "Companies";
+            var companiesDto = await _cache.GetCacheByKeyAsync<IEnumerable<CompanyDto>>(key);
+
+            if (companiesDto == null)
+            {
+                var companies = await _session.Companies.ToListAsync();
+                companiesDto = _mapper.Map<IEnumerable<Company>, IEnumerable<CompanyDto>>(companies);
+                await _cache.SetCacheAsync(key, companiesDto);
+            }
+
+            return companiesDto;
         }
 
         public async Task<CompanyDto> GetCompanyAsync(int id)
         {
-            var company = await _session.Companies.FirstOrDefaultAsync(c => c.Id == id);
+            var key = "Company:" + id;
 
-            if (company == null)
-                throw new CompanyServiceException(ConstStringForException.NotFoundCompany);
-            
-            return _mapper.Map<CompanyDto>(company);
+            var companyDto = await _cache.GetCacheByKeyAsync<CompanyDto>(key);
+
+            if (companyDto == null)
+            {
+                var company = await _session.Companies.FirstOrDefaultAsync(c => c.Id == id);
+
+                if (company == null)
+                    throw new CompanyServiceException(ConstStringForException.NotFoundCompany);
+
+                companyDto = _mapper.Map<CompanyDto>(company);
+                await _cache.SetCacheAsync(key, companyDto);
+            }
+
+            return companyDto;
         }
 
         public async Task UpdateCompanyAsync(CompanyDto company)
@@ -146,9 +170,19 @@ namespace CompaniesService.Service
 
         public async Task<IEnumerable<CompanyDto>> GetCompanyWithCountUsersAsync(int count)
         {
-            var companies = await _session.Companies.Where(c => c.Users.Count >= count)
-                .ToListAsync();
-            return _mapper.Map<List<Company>, IEnumerable<CompanyDto>>(companies);
+            var key = "CompanyWithCountUsers:" + count;
+
+            var companiesDto = await _cache.GetCacheByKeyAsync<IEnumerable<CompanyDto>>(key);
+
+            if (companiesDto == null)
+            {
+                var companies = await _session.Companies.Where(c => c.Users.Count >= count)
+                    .ToListAsync();
+                companiesDto = _mapper.Map<List<Company>, IEnumerable<CompanyDto>>(companies);
+                await _cache.SetCacheAsync(key, companiesDto);
+            }
+
+            return companiesDto;
         }
     }
 }

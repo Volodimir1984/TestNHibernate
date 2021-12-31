@@ -26,6 +26,12 @@ namespace UsersService
             services.AddNHibernate(connectionString);
             services.AddMassTransitService(Configuration);
 
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "SampleUserInstance";
+            });
+
             services.AddScoped<IUserService, UserService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
