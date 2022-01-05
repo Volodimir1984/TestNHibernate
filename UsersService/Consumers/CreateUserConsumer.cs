@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using MassTransit;
+﻿using MassTransit;
 using ServicesInterfaces.Users;
-using TestBaseDto;
+using System.Threading.Tasks;
+using TestBaseDto.User;
 
 namespace UsersService.Consumers
 {
     public class CreateUserConsumer : IConsumer<IUserCreate>
     {
-        private readonly IUserService _userService;
+        private readonly IUserCommand _userCommand;
 
-        public CreateUserConsumer(IUserService userService)
+        public CreateUserConsumer(IUserCommand userCommand)
         {
-            _userService = userService;
+            _userCommand = userCommand;
         }
 
         public async Task Consume(ConsumeContext<IUserCreate> context)
@@ -25,7 +25,7 @@ namespace UsersService.Consumers
                 CompanyId = context.Message.CompanyId,
             };
 
-            await _userService.CreateUserAsync(user);
+            await _userCommand.CreateUserAsync(user);
 
             await context.RespondAsync<IUserData>(new
             {

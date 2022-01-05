@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using MassTransit;
+﻿using MassTransit;
 using ServicesInterfaces.Companies;
-using TestBaseDto;
+using System.Threading.Tasks;
+using TestBaseDto.Company;
 
 namespace CompaniesService.Consumers
 {
     public class CreateCompanyConsumer : IConsumer<ICompanyCreate>
     {
-        private readonly ICompanyService _companyService;
+        private readonly ICompanyCommand _companyCommand;
 
-        public CreateCompanyConsumer(ICompanyService companyService)
+        public CreateCompanyConsumer(ICompanyCommand companyCommand)
         {
-            _companyService = companyService;
+            _companyCommand = companyCommand;
         }
 
         public async Task Consume(ConsumeContext<ICompanyCreate> context)
@@ -22,11 +22,10 @@ namespace CompaniesService.Consumers
                 Name = context.Message.Name,
                 Address = context.Message.Address,
                 Phone = context.Message.Phone,
-                CreatedDate = context.Message.CreatedDate,
-                Users = context.Message.Users
+                CreatedDate = context.Message.CreatedDate
             };
 
-            await _companyService.CreateCompanyAsync(companyDto);
+            await _companyCommand.CreateCompanyAsync(companyDto);
 
             await context.RespondAsync<ICompanyData>(new
             {

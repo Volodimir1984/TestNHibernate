@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestBaseDto;
+using TestBaseDto.User;
 
 namespace ServicesInterfaces.Users
 {
-    public interface IUserService
+    public interface IUserCommand
     {
-        Task<IEnumerable<UserDto>> GetUsersAsync();
-        Task<UserDto> GetUserAsync(int id);
         Task UpdateUserAsync(UserDto user);
         Task DeleteUserAsync(int userId);
         Task CreateUserAsync(UserDto user);

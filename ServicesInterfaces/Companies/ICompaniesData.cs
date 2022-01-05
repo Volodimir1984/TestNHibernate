@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using TestBaseDto;
+using TestBaseDto.Company;
 
 namespace ServicesInterfaces.Companies
 {
     public interface ICompaniesData
     {
-        IEnumerable<CompanyDto> Companies { get; set; }
+        IEnumerable<CompanyAllDataDto> Companies { get; set; }
     }
 }

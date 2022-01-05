@@ -1,10 +1,8 @@
-﻿using ConstData;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using ServicesInterfaces.Users;
-using System;
 using System.Threading.Tasks;
-using TestBaseDto;
+using TestBaseDto.User;
 
 namespace TestNHibernate.Controllers
 {
@@ -75,7 +73,7 @@ namespace TestNHibernate.Controllers
         }
 
         [HttpDelete("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(UserDto user)
+        public async Task<IActionResult> DeleteUser(UserPrimaryDto user)
         {
             var userId = await _userDeleteRequestClient.GetResponse<IUserPrimaryData>(new
             {

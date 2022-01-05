@@ -23,7 +23,11 @@ namespace CompaniesService
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var queryConnectionString = Configuration.GetConnectionString("QueryConnection");
+
             services.AddNHibernate(connectionString);
+            services.AddNHibernateQuery(queryConnectionString);
+
             services.AddMassTransitService(Configuration);
 
             services.AddStackExchangeRedisCache(options =>
@@ -34,7 +38,8 @@ namespace CompaniesService
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ICompanyCommand, CompanyCommand>();
+            services.AddScoped<ICompanyQuery, CompanyQuery>();
 
             services.AddControllers();
         }

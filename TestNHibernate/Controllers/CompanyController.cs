@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesInterfaces.Companies;
 using System.Threading.Tasks;
 using TestBaseDto;
+using TestBaseDto.Company;
 
 
 namespace TestNHibernate.Controllers
@@ -65,7 +66,7 @@ namespace TestNHibernate.Controllers
         }
 
         [HttpDelete("DeleteCompany")]
-        public async Task<IActionResult> DeleteCompany(CompanyDto company)
+        public async Task<IActionResult> DeleteCompany(CompanyPrimaryDto company)
         {
             var companyId = await _deleteCompanyRequestClient.GetResponse<ICompanyPrimaryData>(new {company.Id});
   
@@ -80,8 +81,7 @@ namespace TestNHibernate.Controllers
                 company.Name,
                 company.Address,
                 company.Phone,
-                company.CreatedDate,
-                company.Users
+                company.CreatedDate
             });
 
             return Ok(companyData.Message);

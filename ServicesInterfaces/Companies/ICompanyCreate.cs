@@ -1,6 +1,6 @@
 ﻿namespace ServicesInterfaces.Companies
 {
-    public interface ICompanyCreate : ICompanyAllData
+    public interface ICompanyCreate : ICompanyData
     {
     }
 }

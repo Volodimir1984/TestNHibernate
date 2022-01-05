@@ -18,8 +18,8 @@ namespace CompaniesService
         {
             var cacheEntryOptions = new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(60),
-                SlidingExpiration = TimeSpan.FromSeconds(30)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10),
+                SlidingExpiration = TimeSpan.FromSeconds(10)
             };
 
             var result = JsonSerializer.Serialize(value);

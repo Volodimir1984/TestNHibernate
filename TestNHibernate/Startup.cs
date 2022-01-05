@@ -1,13 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ServicesInterfaces.Companies;
-using ServicesInterfaces.Users;
-using TestBase;
 
 namespace TestNHibernate
 {
@@ -27,6 +23,8 @@ namespace TestNHibernate
             services.AddMassTransitService(Configuration);
             
             services.AddControllers(options => options.Filters.Add(new ExceptionFilter()));
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +43,14 @@ namespace TestNHibernate
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
             });
         }
     }

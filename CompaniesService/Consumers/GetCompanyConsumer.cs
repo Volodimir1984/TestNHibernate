@@ -6,17 +6,17 @@ namespace CompaniesService.Consumers
 {
     public class GetCompanyConsumer : IConsumer<ICompanyPrimaryData>
     {
-        private readonly ICompanyService _companyService;
+        private readonly ICompanyQuery _companyQuery;
 
-        public GetCompanyConsumer(ICompanyService companyService)
+        public GetCompanyConsumer(ICompanyQuery companyQuery)
         {
-            _companyService = companyService;
+            _companyQuery = companyQuery;
         }
 
         public async Task Consume(ConsumeContext<ICompanyPrimaryData> context)
         {
 
-            var company = await _companyService.GetCompanyAsync(context.Message.Id);
+            var company = await _companyQuery.GetCompanyAsync(context.Message.Id);
 
             await context.RespondAsync<ICompanyAllData>(new
             {

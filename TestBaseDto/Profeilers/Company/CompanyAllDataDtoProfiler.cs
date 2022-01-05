@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
 using System.Linq;
-using AutoMapper;
-using TestBase.Data;
+using TestBaseDto.Company;
+using TestBaseDto.User;
 
-namespace TestBaseDto.Profeilers
+namespace TestBaseDto.Profeilers.Company
 {
-    public class CompanyDtoProfiler: Profile
+    public class CompanyAllDataDtoProfiler: Profile
     {
-        public CompanyDtoProfiler()
+        public CompanyAllDataDtoProfiler()
         {
-            CreateMap<Company, CompanyDto>()
+            CreateMap<TestBase.Data.Company, CompanyAllDataDto>()
                 .ForMember(dto => dto.Address, entity => entity.MapFrom(c => c.Adress))
                 .ForMember(dto => dto.Users, entity => entity.MapFrom(c => c.Users
                     .Select(u => new UserDto
@@ -20,10 +20,6 @@ namespace TestBaseDto.Profeilers
                         Email = u.Email,
                         CompanyId = c.Id
                     })));
-            
-            CreateMap<CompanyDto, Company>()
-                .ForMember(dto => dto.Adress, entity => entity.MapFrom(c => c.Address))
-                .ForMember(entity => entity.Users, dto => dto.Ignore());
         }
     }
 }

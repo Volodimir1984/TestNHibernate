@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
@@ -11,9 +12,9 @@ namespace TestBase
         private readonly ISession _session;
         private ITransaction _transaction;
 
-        public NHibernateSession(ISession session)
+        public NHibernateSession(IEnumerable<ISession> sessions)
         {
-            _session = session;
+            _session = sessions.First();
         }
 
         public void BeginTransaction()

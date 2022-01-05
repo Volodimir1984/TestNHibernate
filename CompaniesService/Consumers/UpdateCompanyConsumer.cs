@@ -2,16 +2,17 @@
 using MassTransit;
 using ServicesInterfaces.Companies;
 using TestBaseDto;
+using TestBaseDto.Company;
 
 namespace CompaniesService.Consumers
 {
     public class UpdateCompanyConsumer : IConsumer<ICompanyUpdate>
     {
-        private readonly ICompanyService _companyService;
+        private readonly ICompanyCommand _companyCommand;
 
-        public UpdateCompanyConsumer(ICompanyService companyService)
+        public UpdateCompanyConsumer(ICompanyCommand companyCommand)
         {
-            _companyService = companyService;
+            _companyCommand = companyCommand;
         }
 
         public async Task Consume(ConsumeContext<ICompanyUpdate> context)
@@ -25,7 +26,7 @@ namespace CompaniesService.Consumers
                 CreatedDate = context.Message.CreatedDate
             };
 
-            await _companyService.UpdateCompanyAsync(company);
+            await _companyCommand.UpdateCompanyAsync(company);
 
             await context.RespondAsync<ICompanyPrimaryData>(new {context.Message.Id});
         }

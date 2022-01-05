@@ -9,7 +9,7 @@
       },
       "composeLaunchAction": "LaunchBrowser",
       "commandVersion": "1.0",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/weatherforecast"
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}"
     }
   }
 }

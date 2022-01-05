@@ -6,16 +6,16 @@ namespace UsersService.Consumers
 {
     public class DeleteUserConsumer : IConsumer<IUserDelete>
     {
-        private readonly IUserService _userService;
+        private readonly IUserCommand _userCommand;
 
-        public DeleteUserConsumer(IUserService userService)
+        public DeleteUserConsumer(IUserCommand userCommand)
         {
-            _userService = userService;
+            _userCommand = userCommand;
         }
 
         public async Task Consume(ConsumeContext<IUserDelete> context)
         {
-            await _userService.DeleteUserAsync(context.Message.Id);
+            await _userCommand.DeleteUserAsync(context.Message.Id);
 
             await context.RespondAsync<IUserPrimaryData>(new {context.Message.Id});
         }

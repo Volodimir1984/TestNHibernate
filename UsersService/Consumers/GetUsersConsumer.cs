@@ -6,17 +6,17 @@ namespace UsersService.Consumers
 {
     public class GetUsersConsumer : IConsumer<IUsersData>
     {
-        private readonly IUserService _userService;
+        private readonly IUserQuery _userQuery;
 
-        public GetUsersConsumer(IUserService userService)
+        public GetUsersConsumer(IUserQuery userQuery)
         {
-            _userService = userService;
+            _userQuery = userQuery;
         }
 
         public async Task Consume(ConsumeContext<IUsersData> context)
         {
 
-            var users = await _userService.GetUsersAsync();
+            var users = await _userQuery.GetUsersAsync();
 
             await context.RespondAsync<IUsersData>(new
             {

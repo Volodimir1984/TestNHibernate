@@ -23,7 +23,11 @@ namespace UsersService
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var queryConnectionString = Configuration.GetConnectionString("QueryConnection");
+
             services.AddNHibernate(connectionString);
+            services.AddNHibernateQuery(queryConnectionString);
+
             services.AddMassTransitService(Configuration);
 
             services.AddStackExchangeRedisCache(options =>
@@ -32,7 +36,8 @@ namespace UsersService
                 options.InstanceName = "SampleUserInstance";
             });
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserCommand, UserCommand>();
+            services.AddScoped<IUserQuery, UserQuery>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

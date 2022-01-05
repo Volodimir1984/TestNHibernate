@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using MassTransit;
+﻿using MassTransit;
 using ServicesInterfaces.Users;
-using TestBaseDto;
+using System.Threading.Tasks;
+using TestBaseDto.User;
 
 namespace UsersService.Consumers
 {
     public class UpdateUserConsumer : IConsumer<IUserUpdate>
     {
-        private readonly IUserService _userService;
+        private readonly IUserCommand _userCommand;
 
-        public UpdateUserConsumer(IUserService userService)
+        public UpdateUserConsumer(IUserCommand userCommand)
         {
-            _userService = userService;
+            _userCommand = userCommand;
         }
 
         public async Task Consume(ConsumeContext<IUserUpdate> context)
@@ -25,7 +25,7 @@ namespace UsersService.Consumers
                 CompanyId = context.Message.CompanyId,
             };
 
-            await _userService.UpdateUserAsync(user);
+            await _userCommand.UpdateUserAsync(user);
 
             await context.RespondAsync<IUserPrimaryData>(new {context.Message.Id});
         }

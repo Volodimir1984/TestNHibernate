@@ -6,16 +6,16 @@ namespace CompaniesService.Consumers
 {
     public class DeleteCompanyConsumer : IConsumer<IDeleteCompany>
     {
-        private readonly ICompanyService _companyService;
+        private readonly ICompanyCommand _companyCommand;
 
-        public DeleteCompanyConsumer(ICompanyService companyService)
+        public DeleteCompanyConsumer(ICompanyCommand companyCommand)
         {
-            _companyService = companyService;
+            _companyCommand = companyCommand;
         }
 
         public async Task Consume(ConsumeContext<IDeleteCompany> context)
         {
-            await _companyService.DeleteCompanyAsync(context.Message.Id);
+            await _companyCommand.DeleteCompanyAsync(context.Message.Id);
 
             await context.RespondAsync<ICompanyPrimaryData>(new {context.Message.Id});
         }
