@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ConstData;
-using Microsoft.Extensions.Caching.Distributed;
 using NHibernate.Linq;
 using ServicesInterfaces.Companies;
 using System;

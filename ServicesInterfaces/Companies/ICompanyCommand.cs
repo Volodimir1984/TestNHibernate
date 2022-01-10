@@ -3,6 +3,7 @@ using TestBaseDto.Company;
 
 namespace ServicesInterfaces.Companies
 {
+    //Interfaces for changing data in the database 
     public interface ICompanyCommand
     {
         Task UpdateCompanyAsync(CompanyDto company);

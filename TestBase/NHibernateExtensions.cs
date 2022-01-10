@@ -9,6 +9,7 @@ namespace TestBase
 {
     public static class NHibernateExtensions
     {
+        //Extension method for turn on NHibernate which allow read and write data
         public static IServiceCollection AddNHibernate(this IServiceCollection serviceCollection,
             string connectionString)
         {
@@ -22,6 +23,7 @@ namespace TestBase
             return serviceCollection;
         }
 
+        //Extension method for turn on NHibernate which allow only read data
         public static IServiceCollection AddNHibernateQuery(this IServiceCollection serviceCollection,
             string connectionString)
         {

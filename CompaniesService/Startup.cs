@@ -30,6 +30,7 @@ namespace CompaniesService
 
             services.AddMassTransitService(Configuration);
 
+            //Turn on Redis for the cache
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("Redis");

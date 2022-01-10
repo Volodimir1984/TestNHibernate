@@ -10,6 +10,7 @@ namespace CompaniesService
 {
     public static class MassTransitExtension
     {
+        //Extension method for turn on MassTransit
         public static IServiceCollection AddMassTransitService(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var massTransitSection = configuration.GetSection("MassTransit");

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TestBaseDto;
+﻿using System.Threading.Tasks;
 using TestBaseDto.User;
 
 namespace ServicesInterfaces.Users
 {
+    //Interfaces for changing data in the database 
     public interface IUserCommand
     {
         Task UpdateUserAsync(UserDto user);

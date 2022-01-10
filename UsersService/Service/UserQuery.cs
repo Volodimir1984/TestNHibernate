@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ConstData;
 using Microsoft.Extensions.Caching.Distributed;
 using NHibernate.Linq;
 using ServicesInterfaces.Users;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TestBase;
 using TestBase.Data;
-using TestBaseDto;
 using TestBaseDto.User;
 
 namespace UsersService.Service
